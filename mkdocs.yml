@@ -1,18 +1,26 @@
-site_name: EOEPCA Document Template
-site_url: https://eoepca.readthedocs.io/projects/template/en/latest/
-repo_url: https://github.com/EOEPCA/document-template/
+site_name: EOEPCA Processing Building Block
+site_url: https://eoepca.readthedocs.io/projects/processing/en/latest/
+repo_url: https://github.com/EOEPCA/document-processing/
 edit_uri: "edit/main/docs/"
 
 nav:
   - Home: home.html
-  - Building-block Name:
+  - Processing Building Block:
     - index.md
     - Getting Started:
       - getting-started/quick-start.md
       - getting-started/more-getting-started.md
     - Design:
       - design/overview.md
-      - design/more-design.md
+      - Processing engines:
+        - OGC Application Packages via OGC API Processes: design/processing-engine/oa.md
+        - openEO Process Graphs via the openEO Specification: design/processing-engine/openeo.md
+      - Processing Runners:
+        - Kubernetes: design/processing-runner/kubernetes.md
+        - Docker: design/processing-runner/docker.md
+        - High-Performance Computing: design/processing-runner/hpc.md
+        - Argo Workflows Processing Runners: design/processing-runner/argo.md
+
     - Usage:
       - usage/tutorials.md
       - usage/howtos.md
