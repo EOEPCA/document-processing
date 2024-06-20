@@ -1,3 +1,3 @@
 # How-Tos
 
-How-tos to communicate usage by example.
+Coming soon!

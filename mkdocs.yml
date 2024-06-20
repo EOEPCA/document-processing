@@ -7,9 +7,7 @@ nav:
   - Home: home.html
   - Processing Building Block:
     - index.md
-    - Getting Started:
-      - getting-started/quick-start.md
-      - getting-started/more-getting-started.md
+    
     - Design:
       - design/overview.md
       - Processing engines:
@@ -29,7 +27,8 @@ nav:
           - API:
             - oa/api/endpoint-specification.md
             - oa/api/usage.md
-
+          - Getting Started:
+            - oa/getting-started/quick-start.md
         - openEO Process Graphs via the openEO Specification: 
           - Design: design/processing-engine/openeo.md
           - Usage:
@@ -41,6 +40,8 @@ nav:
           - API:
             - openeo/api/endpoint-specification.md
             - openeo/api/usage.md
+          - Getting Started:
+            - openeo/getting-started/quick-start.md
 
 theme:
   # name: mkdocs
@@ -75,6 +76,7 @@ extra_css:
 plugins:
   - autorefs
   - search
+  - swagger-ui-tag
   # - pub-debugger:
   #     console_log:
   #       enabled: true
