@@ -13,23 +13,34 @@ nav:
     - Design:
       - design/overview.md
       - Processing engines:
-        - OGC Application Packages via OGC API Processes: design/processing-engine/oa.md
-        - openEO Process Graphs via the openEO Specification: design/processing-engine/openeo.md
-      - Processing Runners:
-        - Kubernetes: design/processing-runner/kubernetes.md
-        - Docker: design/processing-runner/docker.md
-        - High-Performance Computing: design/processing-runner/hpc.md
-        - Argo Workflows Processing Runners: design/processing-runner/argo.md
+        - OGC Application Packages via OGC API Processes: 
+          - Design: design/processing-engine/oa.md
+          - Processing Runners:
+            - Kubernetes: design/processing-runner/kubernetes.md
+            - Docker: design/processing-runner/docker.md
+            - High-Performance Computing: design/processing-runner/hpc.md
+            - Argo Workflows Processing Runners: design/processing-runner/argo.md
+          - Usage:
+            - oa/usage/tutorials.md
+            - oa/usage/howtos.md
+          - Administration:
+            - oa/admin/configuration.md
+            - oa/admin/maintenance.md
+          - API:
+            - oa/api/endpoint-specification.md
+            - oa/api/usage.md
 
-    - Usage:
-      - usage/tutorials.md
-      - usage/howtos.md
-    - Administration:
-      - admin/configuration.md
-      - admin/maintenance.md
-    - API:
-      - api/endpoint-specification.md
-      - api/usage.md
+        - openEO Process Graphs via the openEO Specification: 
+          - Design: design/processing-engine/openeo.md
+          - Usage:
+            - openeo/usage/tutorials.md
+            - openeo/usage/howtos.md
+          - Administration:
+            - openeo/admin/configuration.md
+            - openeo/admin/maintenance.md
+          - API:
+            - openeo/api/endpoint-specification.md
+            - openeo/api/usage.md
 
 theme:
   # name: mkdocs
