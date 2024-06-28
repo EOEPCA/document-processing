@@ -9,3 +9,7 @@ Kubernetes facilitates the management of complex processing tasks by efficiently
 Kubernetes addresses this need by enabling dynamic horizontal scaling of resources, ensuring that processing capabilities can be ramped up or down based on real-time requirements, thereby optimising resource utilisation and reducing operational costs.
 
 The Kubernetes processing runner relies on Calrissian, which is a CWL (Common Workflow Language) runner designed to operate on Kubernetes clusters. It allows users to execute CWL workflows in a cloud-native environment, taking advantage of Kubernetes for orchestrating and scaling complex computational workflows. Calrissian offers a powerful platform for executing CWL workflows on Kubernetes, providing scalability, resource efficiency, and the ability to handle complex, data-intensive computational tasks.
+
+The integration of Calrissian as the CWL runner for Kubernetes with Zoo is depicted below.
+
+![Alt text](../../img/zoo-kubernetes-calrissian-processing-runner.png "Zoo and the Calrissian based Kubernetes Processing Runner")

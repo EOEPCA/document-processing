@@ -13,3 +13,7 @@ Integrating Argo Workflows as a Processing Runner promises several benefits:
 - Enhanced orchestration capabilities for complex EO data processing tasks.
 - Improved scalability and efficiency, enabling the EO platform to handle larger datasets and more sophisticated processing workflows.
 - Greater flexibility in managing job dependencies, facilitating more complex analyses and machine learning pipelines.
+
+The integration of Argo Workflows as a Processing Runner for Zoo is depicted below.
+
+![Alt text](../../img/zoo-argo-processing-runner.png "Zoo and Argo Workflows as a Processing Runner")
