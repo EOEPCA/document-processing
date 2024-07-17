@@ -4,8 +4,8 @@ repo_url: https://github.com/EOEPCA/document-processing/
 edit_uri: "edit/main/docs/"
 
 nav:
-  - Home: home.html
-  - Processing Building Block:
+  - EOEPCA Documentation: https://eoepca.readthedocs.io/
+  - Processing:
     - index.md
     
     - Design:
