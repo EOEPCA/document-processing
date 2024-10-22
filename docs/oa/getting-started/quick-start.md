@@ -68,7 +68,7 @@ git clone https://github.com/eoap/dev-platform-eoap/
 cd dev-platform-eoap/
 ```
 
-## Run the _Mastering Earth Observation Application Packaging with CWL_ module on minikube with:
+## Run the _OGC API Processes with ZOO Project_ module on minikube with:
 
 ```
 cd ogc-api-processes-with-zoo
@@ -81,5 +81,5 @@ Wait for the deployment to stablize (1-2 minutes) and the open your browser on t
 
 This tutorial is designed for developers, scientists, and Earth observation enthusiasts who want to get acquainted with the ZOO-Project OGC API Processes implementation to deploy and run Application Packages as web services
 
-* Documentation available at: https://eoap.github.io/ogc-api-processes-with-zoo/
-* Repository available at: https://github.com/eoap/ogc-api-processes-with-zoo/
+* Documentation available at: [https://eoap.github.io/ogc-api-processes-with-zoo/](https://eoap.github.io/ogc-api-processes-with-zoo/)
+* Repository available at: [https://github.com/eoap/ogc-api-processes-with-zoo/](https://github.com/eoap/ogc-api-processes-with-zoo/)
