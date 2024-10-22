@@ -117,7 +117,7 @@ Watching for changes...
 
 Open the link [http://localhost:8000](http://localhost:8000) to access the Code Server
 
-Open the link [http://localhost:8080](http://localhost:8080/swagger-ui/oapip/) to access the Zoo Project swagger
+Open the link [http://localhost:8080/swagger-ui/oapip/](http://localhost:8080/swagger-ui/oapip/) to access the Zoo Project swagger
 
 ## Follow the tutorial
 
