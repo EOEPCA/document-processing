@@ -1,5 +1,3 @@
 # Quick Start
 
-Quick start instructions - including installation, e.g. of a local instance.
-
-Coming soon
+Boostrap a deployment on minikube: https://github.com/eoap/dev-platform-eoap/tree/main/ogc-api-processes-with-zoo
