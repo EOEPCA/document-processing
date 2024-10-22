@@ -68,14 +68,56 @@ git clone https://github.com/eoap/dev-platform-eoap/
 cd dev-platform-eoap/
 ```
 
-## Run the _OGC API Processes with ZOO Project_ module on minikube with:
+## Run the _OGC API Processes with ZOO Project_ module
 
+Bootstrap the deployment with:
 ```
 cd ogc-api-processes-with-zoo
 skaffold dev
 ```
-
 Wait for the deployment to stablize (1-2 minutes) and the open your browser on the link printed, usually http://127.0.0.1:8000.
+
+The typical output is:
+
+```
+No tags generated
+Starting deploy...
+Helm release zoo-project-dru not installed. Installing...
+NAME: zoo-project-dru
+LAST DEPLOYED: Tue Oct 22 07:44:52 2024
+NAMESPACE: eoap-zoo-project
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace eoap-zoo-project -l "app.kubernetes.io/name=zoo-project-dru,app.kubernetes.io/instance=zoo-project-dru" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace eoap-zoo-project $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace eoap-zoo-project port-forward $POD_NAME 8080:$CONTAINER_PORT
+Helm release eoap-zoo-project-coder not installed. Installing...
+NAME: eoap-zoo-project-coder
+LAST DEPLOYED: Tue Oct 22 07:44:54 2024
+...
+...
+ - eoap-zoo-project:statefulset/zoo-project-dru-postgresql: Waiting for 1 pods to be ready...
+ - eoap-zoo-project:statefulset/zoo-project-dru-rabbitmq: Waiting for 1 pods to be ready...
+ - eoap-zoo-project:statefulset/zoo-project-dru-postgresql is ready. [5/7 deployment(s) still pending]
+ - eoap-zoo-project:deployment/eoap-zoo-project-localstack is ready. [4/7 deployment(s) still pending]
+ - eoap-zoo-project:statefulset/zoo-project-dru-rabbitmq is ready. [3/7 deployment(s) still pending]
+ - eoap-zoo-project:deployment/zoo-project-dru-zoofpm is ready. [2/7 deployment(s) still pending]
+ - eoap-zoo-project:deployment/zoo-project-dru-zookernel is ready. [1/7 deployment(s) still pending]
+ - eoap-zoo-project:deployment/code-server-deployment is ready.
+Deployments stabilized in 51.073 seconds
+Port forwarding service/code-server-service in namespace eoap-zoo-project, remote port 8080 -> http://localhost:8000
+Port forwarding service/zoo-project-dru-service in namespace eoap-zoo-project, remote port 80 -> http://localhost:8080
+No artifacts found to watch
+Press Ctrl+C to exit
+Watching for changes...
+```
+
+Open the link [http://localhost:8000](http://localhost:8000) to access the Code Server
+
+Open the link [http://localhost:8080](http://localhost:8080/swagger-ui/oapip/) to access the Zoo Project swagger
 
 ## Follow the tutorial
 
