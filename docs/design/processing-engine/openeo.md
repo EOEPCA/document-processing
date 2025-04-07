@@ -12,13 +12,17 @@ Hence, data access and processing can be optimized in a specific instance.
 
 ## openEO Geotrellis
 
-This component will be further documented in it's own [repository](https://github.com/Open-EO/openeo-geopyspark-driver/blob/master/README.md).
+The documentation of this component can be found [here](https://open-eo.github.io/openeo-geopyspark-driver).
 
 It is built on top of the Geotrellis Scala library, utilizing [Apache Spark](https://spark.apache.org/) for high performance distributed computing.
 
 This backend targets various container orchestrators such as Kubernetes and Apache YARN and can also run standalone in a simple Docker container.
 For HPC, we recommend to simply orchestrate multiple standalone instances using e.g. SLURM, or explore [more complex](https://github.com/Open-EO/openeo-geotrellis-kubernetes/blob/master/hpc/hpc.md) options.
 
+These are some known example deployments that used this backend in a fully operational context:
+
+- [Terrascope](https://docs.terrascope.be/Developers/WebServices/OpenEO/OpenEO.html)
+- [Copernicus DataSpace Ecosystem](https://dataspace.copernicus.eu/analyse/openeo)
 
 ## openEO XArray
 
