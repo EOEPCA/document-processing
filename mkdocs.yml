@@ -43,6 +43,11 @@ nav:
             - openeo/api/usage.md
           - Getting Started:
             - openeo/getting-started/quick-start.md
+      - Processing clients:
+        - Web Editor:
+          - clients/web-editor/index.md
+          - clients/web-editor/quick-start.md
+          - clients/web-editor/configuration.md
 
 theme:
   # name: mkdocs
