@@ -1,5 +1,7 @@
 # Configuration
 
+## Deployment
+
 The deployed version is run from a [generic Helm chart](https://github.com/EOEPCA/helm-charts-dev/tree/develop/charts/openeo-web-editor) in conjunction with a [values file managed in ArgoCD](https://github.com/EOEPCA/eoepca-plus/blob/deploy-develop/argocd/eoepca/openeo-web-editor/values-openeo-web-editor.yaml) which overrides the chart's template defaults via Kustomize.
 
 See the commit of the Helm chart for some comments on how it works: https://github.com/EOEPCA/helm-charts-dev/commit/5dacb2ef81200827ce928613459283400e575efd
@@ -12,3 +14,9 @@ The most important points to understand how the two play together: The actual de
 To make changes in the Helm chart take effect, the version number in the `Chart.yaml` must be bumped, so that the Github action is triggered. For changes in the ArgoCD repo, a simple commit is enough for redeployment.
 
 This dashboard shows all running containers of the deployment: https://argocd.develop.eoepca.org/ (login with Github credentials)
+
+## Application
+
+The configuration of the application itself is done via the [`config.js`](https://github.com/EOEPCA/processing-editor/blob/master/config.js). Additionally, there is a [`theme.scss`](https://github.com/EOEPCA/processing-editor/blob/master/theme.scss) for colours/styling.
+
+There is also a [docs folder](https://github.com/EOEPCA/processing-editor/tree/master/docs) in the repo itself, see there for more information e.g. on [OIDC authentication](https://github.com/EOEPCA/processing-editor/blob/master/docs/oidc.md).
