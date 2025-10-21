@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://eoepca.readthedocs.io/projects/processing/en/latest/design/processing-engine/oa/" rel="canonical"/>
+<link href="../../overview/" rel="prev"/>
+<link href="../../processing-runner/kubernetes/" rel="next"/>
+<link href="../../../img/favicon.ico" rel="icon"/>
+<meta content="mkdocs-1.5.3, mkdocs-material-9.5.17" name="generator"/>
+<title>Design - EOEPCA Processing Building Block</title>
+<link href="../../../assets/stylesheets/main.bcfcd587.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../css/eoepca.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#application-package-processing-engine">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="EOEPCA Processing Building Block" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="EOEPCA Processing Building Block">
+<img alt="logo" src="../../../img/favicon.ico"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            EOEPCA Processing Building Block
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Design
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/EOEPCA/document-processing/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="https://eoepca.readthedocs.io/">
+        
+  
+    
+  
+  EOEPCA Documentation
+
+      </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../../..">
+          
+  
+  Processing Building Block
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="EOEPCA Processing Building Block" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="EOEPCA Processing Building Block">
+<img alt="logo" src="../../../img/favicon.ico"/>
+</a>
+    EOEPCA Processing Building Block
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/EOEPCA/document-processing/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="https://eoepca.readthedocs.io/">
+<span class="md-ellipsis">
+    EOEPCA Documentation
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-ellipsis">
+    Processing Building Block
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Processing Building Block
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+<span class="md-ellipsis">
+    Design
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_2">
+<span class="md-nav__icon md-icon"></span>
+            Design
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../overview/">
+<span class="md-ellipsis">
+    Architecture
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_2_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Processing engines
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_2_2_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_2_2_2">
+<span class="md-nav__icon md-icon"></span>
+            Processing engines
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2_2_2_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1" id="__nav_2_2_2_1_label" tabindex="0">
+<span class="md-ellipsis">
+    OGC Application Packages via OGC API Processes
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_2_2_1_label" class="md-nav" data-md-level="4">
+<label class="md-nav__title" for="__nav_2_2_2_1">
+<span class="md-nav__icon md-icon"></span>
+            OGC Application Packages via OGC API Processes
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Design
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Design
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#introduction-to-the-overall-emsades-architecture">
+<span class="md-ellipsis">
+      Introduction to the overall EMS/ADES architecture
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evolution-of-the-application-package">
+<span class="md-ellipsis">
+      Evolution of the Application Package
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_1_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1_2" id="__nav_2_2_2_1_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Processing Runners
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_1_2_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_1_2">
+<span class="md-nav__icon md-icon"></span>
+            Processing Runners
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../processing-runner/kubernetes/">
+<span class="md-ellipsis">
+    Kubernetes
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../processing-runner/docker/">
+<span class="md-ellipsis">
+    Docker
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../processing-runner/hpc/">
+<span class="md-ellipsis">
+    High-Performance Computing
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../processing-runner/argo/">
+<span class="md-ellipsis">
+    Argo Workflows
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../processing-runner/dask/">
+<span class="md-ellipsis">
+    Dask Distributed
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_1_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1_3" id="__nav_2_2_2_1_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Usage
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_1_3_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_1_3">
+<span class="md-nav__icon md-icon"></span>
+            Usage
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/usage/tutorials/">
+<span class="md-ellipsis">
+    Tutorials
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/usage/howtos/">
+<span class="md-ellipsis">
+    How-Tos
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_1_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1_4" id="__nav_2_2_2_1_4_label" tabindex="0">
+<span class="md-ellipsis">
+    Administration
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_1_4_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_1_4">
+<span class="md-nav__icon md-icon"></span>
+            Administration
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/admin/configuration/">
+<span class="md-ellipsis">
+    Configuration
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/admin/maintenance/">
+<span class="md-ellipsis">
+    Maintenance
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_1_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1_5" id="__nav_2_2_2_1_5_label" tabindex="0">
+<span class="md-ellipsis">
+    API
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_1_5_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_1_5">
+<span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/api/endpoint-specification/">
+<span class="md-ellipsis">
+    Specification
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/api/usage/">
+<span class="md-ellipsis">
+    Usage
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_1_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_1_6" id="__nav_2_2_2_1_6_label" tabindex="0">
+<span class="md-ellipsis">
+    Getting Started
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_1_6_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_1_6">
+<span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../oa/getting-started/quick-start/">
+<span class="md-ellipsis">
+    Quick Start - Boostrap a deployment on minikube
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_2" id="__nav_2_2_2_2_label" tabindex="0">
+<span class="md-ellipsis">
+    openEO Process Graphs via the openEO Specification
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_2_label" class="md-nav" data-md-level="4">
+<label class="md-nav__title" for="__nav_2_2_2_2">
+<span class="md-nav__icon md-icon"></span>
+            openEO Process Graphs via the openEO Specification
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../openeo/">
+<span class="md-ellipsis">
+    Design
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_2_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_2_2" id="__nav_2_2_2_2_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Usage
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_2_2_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_2_2">
+<span class="md-nav__icon md-icon"></span>
+            Usage
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/usage/tutorials/">
+<span class="md-ellipsis">
+    Tutorials
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/usage/howtos/">
+<span class="md-ellipsis">
+    How-Tos
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_2_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_2_3" id="__nav_2_2_2_2_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Administration
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_2_3_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_2_3">
+<span class="md-nav__icon md-icon"></span>
+            Administration
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/admin/configuration/">
+<span class="md-ellipsis">
+    Configuration
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/admin/maintenance/">
+<span class="md-ellipsis">
+    Maintenance
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_2_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_2_4" id="__nav_2_2_2_2_4_label" tabindex="0">
+<span class="md-ellipsis">
+    API
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_2_4_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_2_4">
+<span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/api/endpoint-specification/">
+<span class="md-ellipsis">
+    Specification
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/api/usage/">
+<span class="md-ellipsis">
+    Usage
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_2_2_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_2_2_5" id="__nav_2_2_2_2_5_label" tabindex="0">
+<span class="md-ellipsis">
+    Getting Started
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_2_2_5_label" class="md-nav" data-md-level="5">
+<label class="md-nav__title" for="__nav_2_2_2_2_5">
+<span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../openeo/getting-started/quick-start/">
+<span class="md-ellipsis">
+    Quick Start
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Processing clients
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_3_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_2_2_3">
+<span class="md-nav__icon md-icon"></span>
+            Processing clients
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2_3_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2_3_1" id="__nav_2_2_3_1_label" tabindex="0">
+<span class="md-ellipsis">
+    Web Editor
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_3_1_label" class="md-nav" data-md-level="4">
+<label class="md-nav__title" for="__nav_2_2_3_1">
+<span class="md-nav__icon md-icon"></span>
+            Web Editor
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../clients/web-editor/">
+<span class="md-ellipsis">
+    Introduction
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../clients/web-editor/quick-start/">
+<span class="md-ellipsis">
+    Quick Start
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../clients/web-editor/configuration/">
+<span class="md-ellipsis">
+    Configuration
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#introduction-to-the-overall-emsades-architecture">
+<span class="md-ellipsis">
+      Introduction to the overall EMS/ADES architecture
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evolution-of-the-application-package">
+<span class="md-ellipsis">
+      Evolution of the Application Package
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/EOEPCA/document-processing/edit/main/docs/design/processing-engine/oa.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"></path></svg>
+</a>
+<h1 id="application-package-processing-engine">Application Package Processing Engine<a class="headerlink" href="#application-package-processing-engine" title="Permanent link">⚓︎</a></h1>
+<h2 id="introduction-to-the-overall-emsades-architecture">Introduction to the overall EMS/ADES architecture<a class="headerlink" href="#introduction-to-the-overall-emsades-architecture" title="Permanent link">⚓︎</a></h2>
+<p>The OGC initiatives in Testbed-13, Testbed-14, and Testbed-15 have pioneered the development of an advanced architectural framework designed to facilitate the ad-hoc deployment and execution of applications proximate to the data source. This strategic positioning minimizes data transfer, enhancing efficiency between data repositories and application processes.</p>
+<p>These testbeds laid the foundational design for an architecture that supports the encapsulation, deployment, and execution of Earth Observation Applications across distributed Cloud Platforms. This framework ensures that applications are efficiently integrated and managed within cloud environments, providing scalable solutions for Earth Observation data processing.</p>
+<p>Building on established OGC standards such as WPS (Web Processing Service) and OWS-Context, these testbed activities have refined the concept of Application Packages. These packages encapsulate data processing applications or workflows, allowing for streamlined deployment and execution across varied Cloud Platforms.</p>
+<p>The WPS service played a pivotal role by enabling end-user portals and B2B client applications to submit processing parameters, initiate on-demand or systematic data processing requests, and establish data pipelines for retrieving the processed information.</p>
+<p>Each Application Package contains detailed specifications about the execution units or workflow scripts to be executed, along with configurations for parameterization or customization. This modular approach facilitates the precise tailoring of processing workflows to specific project needs.</p>
+<p>The architecture articulated in these testbeds integrates the Application Package with key services: the Execution Management Service (EMS) and the Application Deployment and Execution Service (ADES). The EMS orchestrates the deployment and invocation of processing services workflows, leveraging multiple deployment and execution platforms through WPS-T, a transactional extension of WPS. The ADES, in turn, functions as the execution engine, managing the application lifecycle previously configured as a WPS service by the EMS.</p>
+<p>The EMS orchestrates the application package across the selected ADES platform, managing the deployment and execution of workflow components either locally or remotely. It ensures a streamlined operation from deployment to execution, fostering a responsive and agile processing environment.</p>
+<p>Primary responsibilities of the ADES include:</p>
+<ul>
+<li>Validating and approving application deployment and execution requests from the EMS.</li>
+<li>Managing the execution of processes within the processing cluster, ensuring robust performance and reliability.</li>
+<li>Monitoring ongoing process execution to maintain operational integrity and performance.</li>
+<li>Retrieving and delivering processed results efficiently, ensuring data integrity and accessibility.</li>
+</ul>
+<p>Additionally, the ADES handles critical sub-steps such as the staging-in of input data and the staging-out of output data, essential for maintaining a seamless flow in data processing activities. This comprehensive approach not only enhances operational efficiency but also ensures that the architecture can support complex, data-intensive workflows in an optimized manner.</p>
+<h2 id="evolution-of-the-application-package">Evolution of the Application Package<a class="headerlink" href="#evolution-of-the-application-package" title="Permanent link">⚓︎</a></h2>
+<p>The OGC Innovation Program’s Earth Observation Applications Pilot, conducted between December 2019 and July 2020, investigated the software architecture initially developed through OGC Testbeds 13-15. This architecture facilitated the deployment and execution of externally developed applications on Earth Observation (EO) data and processing platforms.</p>
+<p>The pilot program served as an evaluation of the interoperability frameworks previously established in OGC Testbeds 13 to 15, proving to be a foundational step for conducting maturity assessments within operational environments. During the pilot, further enhancements and precise definitions were crafted, which refined the process for deploying and executing applications across a variety of platforms with nly minimal modifications required.</p>
+<p>The Pilot validated the strategy of using Docker for secure and efficient application packaging, and HTTP Web APIs or Web Services for managing and executing applications. Moreover, the pilot defined clear application patterns that govern data inputs and outputs, reinforced the use of the Common Workflow Language (CWL) for detailed application description, execution, and workflow construction. It also endorsed the adoption of the SpatioTemporal Asset Catalog (STAC) to serve as a comprehensive data manifest, delineating the necessary inputs and outputs for applications. These advancements collectively enhance the deployment flexibility and interoperability of applications within diverse EO data ecosystems.</p>
+<p>The conclusion of the OGC Earth Observation Applications Pilot emphasized the need for standardized subsets of the Common Workflow Language (CWL) that all platforms should support. This standardization was reckoned essential to ensure that application developers experience consistency and predictability when deploying their applications across different platforms. As a result, the pilot advocated for the creation of an OGC Best Practice document that would outline the use of CWL within application packages.</p>
+<p>This proposed Best Practice document would aim to serve as a comprehensive guide, addressing the diverse application design patterns explored during the pilot. It would provide detailed guidelines for the automated generation of CWL, enabling a more streamlined and efficient development process for EO applications. This initiative would seek to enhance the interoperability and usability of Earth Observation data and processing platforms by leveraging CWL’s robust framework for describing and executing workflows, thereby fostering a more unified and effective approach to application development within the geospatial community.</p>
+<h1 id="the-common-workflow-language-and-the-ocg-earth-observation-application-packages">The Common Workflow Language and the OCG Earth Observation Application Packages.<a class="headerlink" href="#the-common-workflow-language-and-the-ocg-earth-observation-application-packages" title="Permanent link">⚓︎</a></h1>
+<p>CWL was selected as the open standard to support the packaging of Earth Observation applications in several OGC activities and these are depicted below:</p>
+<div class="mermaid">flowchart LR
+    subgraph References["`**References**`"]
+      subgraph Testbed-13
+        tb13["`EP Application Package Engineering Report (17-023)
+            Application Deployment and Execution Service Engineering Report (17-024)
+            Cloud Engineering Report (17-035)`"]
+    end
+    subgraph Testbed-14
+        tb14["`Application Package Engineering Report (18-049r1)
+            ADES &amp; EMS Results and Best Practices Engineering Report (18-050r1)`"]
+    end
+    subgraph Testbed-15
+        tb15["`Catalogue and Discovery Engineering Report (19-020r1)`"]
+    end
+    end
+    subgraph eoap["`**Earth Observation Applications Pilot**`"]
+        eoaper["`20-042 Terradue Engineering Report
+                20-045 CRIM Engineering Report
+                20-038 European Union Satellite Centre Engineering Report
+                20-043 EOX Consortium Engineering Report
+                20-037 Pixalytics Engineering Report
+                20-034 Spacebel Engineering Report`"]
+        summary-er["EO Applications Pilot 
+        Summary Engineering Report (20-073)"]
+        eoaper --&gt; summary-er
+    end
+    Testbed-13 --&gt; eoap
+    Testbed-14 --&gt; eoap
+    Testbed-15 --&gt; eoap
+    summary-er --&gt; bp["`Best Practice for Earth Observation Application Package (20-089)`"] 
+    bp --&gt; tb16["`Testbed-16: Earth Observation Application Packages with Jupyter Notebooks`"]
+    bp --&gt; tb17["`Testbed 17: COG/Zarr Evaluation Engineering Report`"]
+    bp --&gt; tb18["`Testbed-18: Testbed-18: Reproducible FAIR Best Practices Engineering Report`"]</div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Architecture" class="md-footer__link md-footer__link--prev" href="../../overview/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Architecture
+              </div>
+</div>
+</a>
+<a aria-label="Next: Kubernetes" class="md-footer__link md-footer__link--next" href="../../processing-runner/kubernetes/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Next
+              </span>
+<div class="md-ellipsis">
+                Kubernetes
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+<script src="../../../javascripts/config.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.6.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
